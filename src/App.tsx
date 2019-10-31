@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 interface IColor {
@@ -8,7 +7,7 @@ interface IColor {
   blue: number
 }
 
-interface IMyComponentProps{
+interface IMyComponentProps {
 
 }
 
@@ -48,11 +47,13 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
   }
 
   changeBgColor = (red: number, green: number, blue: number): void => {
-    this.setState({currentColor: {
-      red,
-      green,
-      blue
-    }});
+    this.setState({
+      currentColor: {
+        red,
+        green,
+        blue
+      }
+    });
   };
 
   addToHistoryArray = (red: number, green: number, blue: number): void => {
@@ -68,16 +69,16 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
   //interval Var for setting and clearing loop
   interval: number | undefined = undefined;
 
-  componentDidMount(){
+  componentDidMount() {
     this.startLoop();
   };
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.stopLoop();
   };
 
   startLoop = () => {
-    if (this.interval){
+    if (this.interval) {
       window.clearInterval(this.interval);
     }
     this.colorLoop();
@@ -85,7 +86,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
   }
 
   stopLoop = () => {
-    if (this.interval){
+    if (this.interval) {
       window.clearInterval(this.interval)
       this.interval = undefined;
     }
@@ -99,22 +100,41 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
   };
 
   startStopHandler = (): void => {
-    if (this.state.repeatColorLoop){
+    if (this.state.repeatColorLoop) {
       this.stopLoop();
-      this.setState({repeatColorLoop: false});
+      this.setState({ repeatColorLoop: false });
     } else {
       this.startLoop();
-      this.setState({repeatColorLoop: true});
+      this.setState({ repeatColorLoop: true });
     }
   };
 
-  render(){
+  render() {
     return (
       <div className="pageWrapper" style={{
         backgroundColor: `rgb(${this.state.currentColor.red}, ${this.state.currentColor.green}, ${this.state.currentColor.blue})`
       }}>
-        <h2>rgb({this.state.currentColor.red}, {this.state.currentColor.green}, {this.state.currentColor.blue})</h2>
-        <button onClick={this.startStopHandler}>Start / Stop</button>
+        <h2 id="RGBColorTitle">rgb({this.state.currentColor.red}, {this.state.currentColor.green}, {this.state.currentColor.blue})</h2>
+        <button onClick={this.startStopHandler} id="startStop">Start / Stop</button>
+        <div className="historyAndFavorites">
+          <div className="historyContainer">
+            <h2 id="historyTitle">History</h2>
+            <div className="historyBox"></div>
+            <div className="historyButtonsContainer">
+              <button id="clearHistoryButton">Clear History</button>
+              <button id="addToFavoritesButton">Add to Favorites</button>
+            </div>
+          </div>
+
+          <div className="favoritesContainer">
+            <h2 id="favoritesTitle">Favorites</h2>
+            <div className="favoritesBox" id="favoritesBox"></div>
+            <div className="favoritesButtonsContainer">
+              <button id="clearFavoritesButton">Clear Favorites</button>
+              <button id="addCurrentColorButton">Add Current Color</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   };
